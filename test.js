@@ -1,6 +1,8 @@
 const getProcesses = require('./src/collectors/processes');
+const { analyzeProcesses } = require('./src/rules/detectors');
 
 getProcesses().then(processes => {
-  console.log(`Found ${processes.length} processes`);
-  console.log(processes.slice(0, 10)); // show top 10 by CPU usage
+  const findings = analyzeProcesses(processes);
+  console.log(`Found ${findings.length} findings:`);
+  console.log(findings);
 });
