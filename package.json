@@ -9,8 +9,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "systeminformation": "^5.33.12"
-  }
+  "type": "commonjs"
 }
