@@ -1,5 +1,6 @@
 import os
 import re
+import ipaddress
 
 # Folders considered "normal" for legitimate software to run from
 TRUSTED_PATH_PREFIXES = [
@@ -90,10 +91,72 @@ def analyze_startup_items(items):
     
     return findings
 
+# Common, expected ports for everyday legitimate traffic
+COMMON_PORTS = {80, 443, 53, 22, 21, 25, 110, 143, 993, 995, 3389, 445, 139, 135, 5353, 1900}
+
+def analyze_network_connections(connections):
+    findings = []
+    
+    for conn in connections:
+        # Only look at connections that are actually reaching out somewhere (skip listeners/idle)
+        if not conn['remote_address']:
+            continue
+        
+        remote_port = int(conn['remote_address'].split(':')[-1])
+        
+        if conn['process'] == 'Unknown':
+            findings.append({
+                'severity': 'warning',
+                'title': f"Unidentified process connected to {conn['remote_address']}",
+                'detail': f"A process we couldn't identify (PID {conn['pid']}) has an active connection to {conn['remote_address']}. This is unusual and worth investigating.",
+                'pid': conn['pid']
+            })
+        
+        if remote_port not in COMMON_PORTS and remote_port > 1024:
+            findings.append({
+                'severity': 'info',
+                'title': f"{conn['process']} is using an uncommon port",
+                'detail': f"{conn['process']} is connected to {conn['remote_address']}, using port {remote_port}, which isn't one of the most common ports. This isn't necessarily bad, but worth being aware of.",
+                'pid': conn['pid']
+            })
+    
+    return findings
+import ipaddress
+
+def is_private_address(ip_str):
+    try:
+        return ipaddress.ip_address(ip_str).is_private
+    except ValueError:
+        return False
+
+def analyze_network_connections(connections):
+    findings = []
+    
+    for conn in connections:
+        if not conn['remote_address']:
+            continue
+        
+        remote_ip = conn['remote_address'].rsplit(':', 1)[0]
+        
+        # Skip local network traffic entirely, we only care about external connections
+        if is_private_address(remote_ip):
+            continue
+        
+        if conn['process'] == 'Unknown':
+            findings.append({
+                'severity': 'warning',
+                'title': f"Unidentified process connected to {conn['remote_address']}",
+                'detail': f"A process we couldn't identify (PID {conn['pid']}) has an active connection to {conn['remote_address']}. This is unusual and worth investigating.",
+                'pid': conn['pid']
+            })
+    
+    return findings
+
 if __name__ == '__main__':
     from src.collectors.processes import get_processes
     from src.collectors.startup import get_startup_items
-    
+    from src.collectors.network import get_network_connections
+
     procs = get_processes()
     findings = analyze_processes(procs)
     print(f"Process findings: {len(findings)}")
@@ -107,3 +170,11 @@ if __name__ == '__main__':
     print(f"Startup findings: {len(startup_findings)}")
     for f in startup_findings:
         print(f)
+
+    print()
+
+    connections = get_network_connections()
+    network_findings = analyze_network_connections(connections)
+    print(f"Network findings: {len(network_findings)}")
+    for f in network_findings:
+        print(f)    
