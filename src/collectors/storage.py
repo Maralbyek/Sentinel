@@ -56,6 +56,25 @@ def _get_dir_size(path):
                 continue
     return total
 
+def get_largest_files(root_path, top_n=15):
+    """Finds the largest individual files within root_path and its subfolders."""
+    files = []
+
+    for dirpath, dirnames, filenames in os.walk(root_path):
+        for f in filenames:
+            try:
+                fp = os.path.join(dirpath, f)
+                size = os.path.getsize(fp)
+                files.append({
+                    'name': f,
+                    'path': fp,
+                    'size_mb': round(size / (1024**2), 1)
+                })
+            except (PermissionError, FileNotFoundError, OSError):
+                continue
+
+    files.sort(key=lambda f: f['size_mb'], reverse=True)
+    return files[:top_n]
 
 if __name__ == '__main__':
     print("=== Drive Summary ===")
@@ -67,4 +86,9 @@ if __name__ == '__main__':
     user_folder = os.path.expanduser("~")
     folders = get_folder_sizes(user_folder)
     for f in folders[:10]:
+        print(f)
+
+    print("\n=== Largest individual files in your user folder ===")
+    largest = get_largest_files(user_folder, top_n=10)
+    for f in largest:
         print(f)
