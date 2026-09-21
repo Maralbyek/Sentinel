@@ -16,6 +16,34 @@ SUSPICIOUS_PATH_KEYWORDS = [
     '\\Downloads\\'
 ]
 
+# Processes we expect to see listening on the network side — core Windows + common dev tools
+KNOWN_LISTENERS = {
+    'system', 'svchost.exe', 'lsass.exe', 'services.exe', 'wininit.exe',
+    'spoolsv.exe', 'code.exe', 'mdnsresponder.exe', 'onedrive.sync.service.exe'
+}
+
+def analyze_listening_ports(listening_ports):
+    findings = []
+    
+    for port in listening_ports:
+        addr = port['local_address']
+        ip = addr.rsplit(':', 1)[0]
+        
+        # Loopback-only ports aren't reachable from outside this PC, skip them
+        if ip in ('127.0.0.1', '::1'):
+            continue
+        
+        process_lower = port['process'].lower()
+        if process_lower not in KNOWN_LISTENERS:
+            findings.append({
+                'severity': 'info',
+                'title': f"{port['process']} is listening for network connections",
+                'detail': f"{port['process']} is listening on {addr}, which means it can accept incoming connections from your network. This is worth knowing if it's not a program you recognize.",
+                'pid': port['pid']
+            })
+    
+    return findings
+
 def is_from_suspicious_path(path):
     if not path or path == 'Unknown':
         return False
@@ -142,6 +170,9 @@ def analyze_network_connections(connections):
         if is_private_address(remote_ip):
             continue
         
+        if conn['pid'] == 0:
+            continue
+
         if conn['process'] == 'Unknown':
             findings.append({
                 'severity': 'warning',
@@ -155,8 +186,8 @@ def analyze_network_connections(connections):
 if __name__ == '__main__':
     from src.collectors.processes import get_processes
     from src.collectors.startup import get_startup_items
-    from src.collectors.network import get_network_connections
-
+    from src.collectors.network import get_network_connections, get_listening_ports
+    
     procs = get_processes()
     findings = analyze_processes(procs)
     print(f"Process findings: {len(findings)}")
@@ -170,11 +201,19 @@ if __name__ == '__main__':
     print(f"Startup findings: {len(startup_findings)}")
     for f in startup_findings:
         print(f)
-
+    
     print()
-
+    
     connections = get_network_connections()
     network_findings = analyze_network_connections(connections)
     print(f"Network findings: {len(network_findings)}")
     for f in network_findings:
-        print(f)    
+        print(f)
+    
+    print()
+    
+    listening = get_listening_ports()
+    port_findings = analyze_listening_ports(listening)
+    print(f"Open port findings: {len(port_findings)}")
+    for f in port_findings:
+        print(f)

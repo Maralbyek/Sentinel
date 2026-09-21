@@ -30,8 +30,21 @@ def get_network_connections():
     
     return connections
 
+def get_listening_ports():
+    """Filters all connections down to just the ones actively listening for incoming traffic."""
+    all_connections = get_network_connections()
+    listening = [c for c in all_connections if c['status'] == 'LISTEN']
+    return listening
+
 if __name__ == '__main__':
     conns = get_network_connections()
     print(f"Found {len(conns)} connections")
     for c in conns[:15]:
         print(c)
+
+    print()
+
+    listening = get_listening_ports()
+    print(f"Found {len(listening)} listening ports")
+    for l in listening:
+        print(l)     
