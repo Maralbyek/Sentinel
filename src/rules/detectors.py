@@ -191,12 +191,51 @@ def analyze_security_events(events):
 
     return findings
 
+def analyze_security_status(defender_status, firewall_status, hosts_entries):
+    findings = []
+
+    # Defender checks
+    if isinstance(defender_status, dict) and 'error' not in defender_status:
+        if defender_status.get('real_time_protection') is False:
+            findings.append({
+                'severity': 'critical',
+                'title': 'Windows Defender real-time protection is OFF',
+                'detail': "Real-time protection is currently disabled. This leaves your PC unprotected against new threats. Turn it back on unless you intentionally disabled it (e.g., for another antivirus).",
+            })
+        if defender_status.get('antivirus_enabled') is False:
+            findings.append({
+                'severity': 'critical',
+                'title': 'Antivirus protection is OFF',
+                'detail': "Windows antivirus protection is currently disabled.",
+            })
+
+    # Firewall checks
+    if isinstance(firewall_status, list):
+        for profile in firewall_status:
+            if not profile['enabled']:
+                findings.append({
+                    'severity': 'warning',
+                    'title': f"Firewall is OFF for the {profile['profile']} network profile",
+                    'detail': f"The Windows Firewall is disabled for {profile['profile']} networks, which reduces protection while connected to that type of network.",
+                })
+
+    # Hosts file checks - flag any entry, since legitimate reasons to have one are rare for a typical user
+    if isinstance(hosts_entries, list) and len(hosts_entries) > 0:
+        for entry in hosts_entries:
+            findings.append({
+                'severity': 'warning',
+                'title': f"Hosts file redirects {entry['hostname']}",
+                'detail': f"Your hosts file redirects {entry['hostname']} to {entry['ip']}. This overrides normal website lookups and is sometimes used by malware to silently redirect traffic. If you didn't add this yourself, it's worth investigating.",
+            })
+
+    return findings
 
 if __name__ == '__main__':
     from src.collectors.processes import get_processes
     from src.collectors.startup import get_startup_items
     from src.collectors.network import get_network_connections, get_listening_ports
     from src.collectors.events import get_security_events
+    from src.collectors.security_status import get_defender_status, get_firewall_status, get_hosts_file_entries
 
     procs = get_processes()
     findings = analyze_processes(procs)
@@ -234,4 +273,14 @@ if __name__ == '__main__':
     event_findings = analyze_security_events(events)
     print(f"Security event findings: {len(event_findings)}")
     for f in event_findings:
+        print(f)
+
+    print()
+
+    defender = get_defender_status()
+    firewall = get_firewall_status()
+    hosts = get_hosts_file_entries()
+    status_findings = analyze_security_status(defender, firewall, hosts)
+    print(f"Security status findings: {len(status_findings)}")
+    for f in status_findings:
         print(f)
