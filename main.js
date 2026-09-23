@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -34,7 +34,7 @@ ipcMain.handle('run:scan', async () => {
   return new Promise((resolve, reject) => {
     const pythonPath = path.join(__dirname, '.venv', 'Scripts', 'python.exe');
     const python = spawn(pythonPath, ['-m', 'src.engine'], { cwd: __dirname });
-
+    
     let output = '';
     let errorOutput = '';
 
@@ -53,4 +53,8 @@ ipcMain.handle('run:scan', async () => {
       }
     });
   });
+});
+
+ ipcMain.handle('open:location', async (event, targetPath) => {
+  shell.showItemInFolder(targetPath);
 });
