@@ -51,10 +51,22 @@ scanBtn.addEventListener('click', async () => {
 
 // ---- Render everything once data comes back ----
 function renderAll(data) {
-  document.getElementById('metric-processes').textContent = (data.processes || []).length;
-  document.getElementById('metric-connections').textContent = (data.connections || []).length;
-  document.getElementById('metric-findings').textContent = (data.findings || []).length;
-  document.getElementById('metric-drives').textContent = (data.drives || []).length;
+  const metrics = {
+    processes: (data.processes || []).length,
+    connections: (data.connections || []).length,
+    findings: (data.findings || []).length,
+    drives: (data.drives || []).length
+  };
+  document.getElementById('metric-processes').textContent = metrics.processes;
+  document.getElementById('metric-connections').textContent = metrics.connections;
+  document.getElementById('metric-findings').textContent = metrics.findings;
+  document.getElementById('metric-drives').textContent = metrics.drives;
+  document.getElementById('posture-score').textContent = metrics.findings === 0 ? 'OK' : metrics.findings;
+  document.getElementById('report-timestamp').textContent = `Captured ${new Date().toLocaleString()}`;
+  setBar('bar-processes', metrics.processes, Math.max(metrics.processes, metrics.connections, 1));
+  setBar('bar-connections', metrics.connections, Math.max(metrics.processes, metrics.connections, 1));
+  setBar('bar-findings', metrics.findings, Math.max(metrics.findings, 5));
+  setBar('bar-drives', metrics.drives, Math.max(metrics.drives, 5));
   renderFindings(data.findings || []);
   renderTable('table-processes', data.processes || [], p => [
     p.name, p.pid, p.cpu?.toFixed(1), `${p.memMB} MB`, p.path
@@ -156,4 +168,8 @@ function showScanError(message) {
   empty.className = 'empty-state error-state';
   empty.innerHTML = `<strong>Scan engine unavailable</strong><span>${escapeHtml(message)}</span><small>Check that the bundled engine is present, then try again.</small>`;
   empty.classList.remove('hidden');
+}
+
+function setBar(id, value, maximum) {
+  document.getElementById(id).style.width = `${Math.max(8, Math.round((value / maximum) * 100))}%`;
 }

@@ -6,7 +6,7 @@
   <title>Sentinel | Endpoint Monitor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -48,25 +48,46 @@
       </header>
 
       <section id="view-overview" class="view overview-view">
-        <div class="overview-intro">
-          <div>
-            <div class="eyebrow">SECURITY POSTURE</div>
-            <h2>System intelligence<br><span>at a glance.</span></h2>
+        <div class="report-hero">
+          <div class="hero-copy">
+            <div class="eyebrow">LOCAL SECURITY REPORT / 01</div>
+            <h2>Know what is<br><em>happening.</em></h2>
+            <p>Sentinel reads the machine in front of you, follows the signals, and turns the noise into a clear security brief.</p>
+            <div class="scope-note"><span class="scope-line"></span> Private by design · no cloud relay</div>
           </div>
-          <div class="scope-note"><span class="scope-line"></span> Data stays on this machine</div>
+          <div class="posture-orbit" aria-label="Current posture">
+            <div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div>
+            <div class="orbit-core"><span id="posture-score">--</span><small>signals</small></div>
+            <span class="orbit-spark spark-one"></span><span class="orbit-spark spark-two"></span>
+          </div>
         </div>
-        <div class="scan-metrics" aria-label="Scan summary">
-          <div class="metric"><span class="metric-label">Processes</span><strong id="metric-processes">--</strong></div>
-          <div class="metric"><span class="metric-label">Connections</span><strong id="metric-connections">--</strong></div>
-          <div class="metric"><span class="metric-label">Findings</span><strong id="metric-findings">--</strong></div>
-          <div class="metric"><span class="metric-label">Volumes</span><strong id="metric-drives">--</strong></div>
+        <div class="report-grid">
+          <div class="phase-panel">
+            <div class="panel-kicker">INSPECTION PATH</div>
+            <div class="phase-track">
+              <div class="phase active"><span class="phase-node">01</span><div><b>Observe</b><small>processes + startup</small></div></div>
+              <div class="phase-line"></div>
+              <div class="phase"><span class="phase-node">02</span><div><b>Trace</b><small>network + ports</small></div></div>
+              <div class="phase-line"></div>
+              <div class="phase"><span class="phase-node">03</span><div><b>Check</b><small>defender + firewall</small></div></div>
+              <div class="phase-line"></div>
+              <div class="phase"><span class="phase-node">04</span><div><b>Explain</b><small>rules + report</small></div></div>
+            </div>
+          </div>
+          <div class="signal-panel">
+            <div class="panel-kicker">SIGNAL MAP <span>LIVE COUNTS</span></div>
+            <div class="signal-bars">
+              <div class="signal-row"><span>Processes</span><div class="signal-bar"><i id="bar-processes"></i></div><b id="metric-processes">--</b></div>
+              <div class="signal-row"><span>Connections</span><div class="signal-bar"><i id="bar-connections"></i></div><b id="metric-connections">--</b></div>
+              <div class="signal-row"><span>Findings</span><div class="signal-bar alert"><i id="bar-findings"></i></div><b id="metric-findings">--</b></div>
+              <div class="signal-row"><span>Volumes</span><div class="signal-bar"><i id="bar-drives"></i></div><b id="metric-drives">--</b></div>
+            </div>
+          </div>
         </div>
-        <div class="section-heading">
-          <h3>Latest findings</h3>
-          <span class="section-caption">Rules engine output</span>
-        </div>
+        <div class="section-heading"><h3>Report notes</h3><span class="section-caption">Prioritized by the rules engine</span></div>
         <div id="findings-list" class="findings-list"></div>
         <div id="overview-empty" class="empty-state">Run a scan to inspect processes, persistence, network activity, and system security controls.</div>
+        <div class="report-footer"><span>Sentinel / endpoint intelligence</span><span id="report-timestamp">Awaiting first scan</span></div>
       </section>
 
       <section id="view-processes" class="view hidden">
