@@ -1,10 +1,16 @@
 # Sentinel
 
+## Download for Windows
+
+[**Download Sentinel Installer**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.0/Sentinel%20Setup%201.0.0.exe) | [**Download Portable App**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.0/Sentinel%201.0.0.exe)
+
+Install Sentinel with the first link to add it as a normal Windows application with Start Menu and Desktop shortcuts. Use the portable link to run it without installing. Both downloads include the Python security engine; Node.js and Python are not required.
+
 Sentinel is a local Windows endpoint security monitor. Python collects live system data and applies the detection rules; Electron provides the desktop interface. No web server, cloud service, or database is required.
 
 ## Download Sentinel for Windows
 
-Download the latest Windows installer from the [GitHub Releases page](https://github.com/Maralbyek/Sentinel/releases/latest). Run `Sentinel Setup.exe` and follow the installer. It installs Sentinel as a normal Windows application, adds it to the Start Menu, and can create a Desktop shortcut.
+Download the latest Windows installer from the [GitHub Releases page](https://github.com/Maralbyek/Sentinel/releases/latest). Run the downloaded installer and follow the prompts. It installs Sentinel as a normal Windows application, adds it to the Start Menu, and can create a Desktop shortcut.
 
 The installer stores the app under the current user's local applications folder by default. No administrator access is required. The portable `.exe` is also available on the Releases page when you want to run Sentinel without installing it.
 
