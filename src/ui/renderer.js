@@ -67,6 +67,7 @@ function renderAll(data) {
   setBar('bar-connections', metrics.connections, Math.max(metrics.processes, metrics.connections, 1));
   setBar('bar-findings', metrics.findings, Math.max(metrics.findings, 5));
   setBar('bar-drives', metrics.drives, Math.max(metrics.drives, 5));
+  renderActivity(metrics);
   renderFindings(data.findings || []);
   renderTable('table-processes', data.processes || [], p => [
     p.name, p.pid, p.cpu?.toFixed(1), `${p.memMB} MB`, p.path
@@ -172,4 +173,14 @@ function showScanError(message) {
 
 function setBar(id, value, maximum) {
   document.getElementById(id).style.width = `${Math.max(8, Math.round((value / maximum) * 100))}%`;
+}
+
+function renderActivity(metrics) {
+  const points = document.querySelectorAll('.activity-visual span');
+  const seed = [metrics.processes, metrics.connections, metrics.findings * 8, metrics.drives * 10];
+  points.forEach((point, index) => {
+    const signal = seed[index % seed.length];
+    const variation = (index * 17 + signal) % 31;
+    point.style.height = `${16 + variation}%`;
+  });
 }

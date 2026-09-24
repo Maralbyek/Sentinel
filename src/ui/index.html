@@ -76,6 +76,9 @@
           </div>
           <div class="signal-panel">
             <div class="panel-kicker">SIGNAL MAP <span>LIVE COUNTS</span></div>
+            <div class="activity-visual" aria-label="Telemetry activity visualization">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
             <div class="signal-bars">
               <div class="signal-row"><span>Processes</span><div class="signal-bar"><i id="bar-processes"></i></div><b id="metric-processes">--</b></div>
               <div class="signal-row"><span>Connections</span><div class="signal-bar"><i id="bar-connections"></i></div><b id="metric-connections">--</b></div>
@@ -84,34 +87,34 @@
             </div>
           </div>
         </div>
-        <div class="section-heading"><h3>Report notes</h3><span class="section-caption">Prioritized by the rules engine</span></div>
+        <div class="section-heading"><h3>Report notes</h3><span class="section-caption">Prioritized by the rules engine</span><span class="search-label">SEARCHING / SECURITY SIGNALS</span></div>
         <div id="findings-list" class="findings-list"></div>
         <div id="overview-empty" class="empty-state">Run a scan to inspect processes, persistence, network activity, and system security controls.</div>
         <div class="report-footer"><span>Sentinel / endpoint intelligence</span><span id="report-timestamp">Awaiting first scan</span></div>
       </section>
 
       <section id="view-processes" class="view hidden">
-        <div class="section-heading"><h3>Running processes</h3><span class="section-caption">Live process inventory</span></div>
+        <div class="section-heading"><h3>Running processes</h3><span class="section-caption">Live process inventory</span><span class="search-label">SEARCHING / EXECUTION</span></div>
         <div class="table-wrap"><table id="table-processes"><thead><tr><th>Process</th><th>PID</th><th>CPU</th><th>Memory</th><th>Executable path</th></tr></thead><tbody></tbody></table></div>
       </section>
 
       <section id="view-startup" class="view hidden">
-        <div class="section-heading"><h3>Startup entries</h3><span class="section-caption">Persistence locations</span></div>
+        <div class="section-heading"><h3>Startup entries</h3><span class="section-caption">Persistence locations</span><span class="search-label">SEARCHING / PERSISTENCE</span></div>
         <div class="table-wrap"><table id="table-startup"><thead><tr><th>Name</th><th>Source</th><th>Command</th></tr></thead><tbody></tbody></table></div>
       </section>
 
       <section id="view-network" class="view hidden">
-        <div class="section-heading"><h3>Network connections</h3><span class="section-caption">Active sockets</span></div>
+        <div class="section-heading"><h3>Network connections</h3><span class="section-caption">Active sockets</span><span class="search-label">SEARCHING / TRAFFIC</span></div>
         <div class="table-wrap"><table id="table-network"><thead><tr><th>Process</th><th>Local address</th><th>Remote address</th><th>Status</th></tr></thead><tbody></tbody></table></div>
       </section>
 
       <section id="view-ports" class="view hidden">
-        <div class="section-heading"><h3>Listening ports</h3><span class="section-caption">Services accepting connections</span></div>
+        <div class="section-heading"><h3>Listening ports</h3><span class="section-caption">Services accepting connections</span><span class="search-label">SEARCHING / EXPOSURE</span></div>
         <div class="table-wrap"><table id="table-ports"><thead><tr><th>Process</th><th>Local address</th></tr></thead><tbody></tbody></table></div>
       </section>
 
       <section id="view-storage" class="view hidden">
-        <div class="section-heading"><h3>Storage volumes</h3><span class="section-caption">Capacity and utilization</span></div>
+        <div class="section-heading"><h3>Storage volumes</h3><span class="section-caption">Capacity and utilization</span><span class="search-label">SEARCHING / STORAGE</span></div>
         <div id="storage-drives" class="storage-drives"></div>
       </section>
     </main>
