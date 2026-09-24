@@ -7,6 +7,12 @@ const railItems = document.querySelectorAll('.rail-item');
 const views = document.querySelectorAll('.view');
 const viewTitle = document.getElementById('view-title');
 
+function setStatus(message, tone = 'ready') {
+  railStatus.textContent = message;
+  railStatus.dataset.tone = tone;
+  document.querySelector('.status-dot').dataset.tone = tone;
+}
+
 railItems.forEach(item => {
   item.addEventListener('click', () => {
     railItems.forEach(i => i.classList.remove('active'));
@@ -15,7 +21,7 @@ railItems.forEach(item => {
     const target = item.dataset.view;
     views.forEach(v => v.classList.add('hidden'));
     document.getElementById(`view-${target}`).classList.remove('hidden');
-    viewTitle.textContent = item.textContent;
+    viewTitle.textContent = item.querySelector('span:last-child').textContent;
   });
 });
 
@@ -25,26 +31,30 @@ const railStatus = document.getElementById('rail-status');
 
 scanBtn.addEventListener('click', async () => {
   scanBtn.disabled = true;
-  scanBtn.textContent = 'Scanning…';
-  railStatus.textContent = 'Scanning…';
+  scanBtn.innerHTML = '<span class="scan-symbol scan-spinner">o</span> Scanning';
+  setStatus('Collecting telemetry...', 'working');
 
   try {
     const data = await window.sentinel.runScan();
     state.data = data;
     renderAll(data);
-    railStatus.textContent = `Last scan: ${new Date().toLocaleTimeString()}`;
+    setStatus(`Last scan ${new Date().toLocaleTimeString()}`, 'ready');
   } catch (err) {
-    railStatus.textContent = 'Scan failed';
+    setStatus('Scan failed', 'error');
     console.error(err);
-    alert('Scan failed: ' + err.message);
+    showScanError(err.message);
   } finally {
     scanBtn.disabled = false;
-    scanBtn.textContent = 'Run scan';
+    scanBtn.innerHTML = '<span class="scan-symbol">+</span> Run scan';
   }
 });
 
 // ---- Render everything once data comes back ----
 function renderAll(data) {
+  document.getElementById('metric-processes').textContent = (data.processes || []).length;
+  document.getElementById('metric-connections').textContent = (data.connections || []).length;
+  document.getElementById('metric-findings').textContent = (data.findings || []).length;
+  document.getElementById('metric-drives').textContent = (data.drives || []).length;
   renderFindings(data.findings || []);
   renderTable('table-processes', data.processes || [], p => [
     p.name, p.pid, p.cpu?.toFixed(1), `${p.memMB} MB`, p.path
@@ -139,4 +149,11 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+function showScanError(message) {
+  const empty = document.getElementById('overview-empty');
+  empty.className = 'empty-state error-state';
+  empty.innerHTML = `<strong>Scan engine unavailable</strong><span>${escapeHtml(message)}</span><small>Check that the bundled engine is present, then try again.</small>`;
+  empty.classList.remove('hidden');
 }
