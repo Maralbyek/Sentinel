@@ -32,7 +32,9 @@ app.on('window-all-closed', () => {
 // Runs the full Python engine and returns its JSON result to the UI
 ipcMain.handle('run:scan', async () => {
   return new Promise((resolve, reject) => {
-    const pythonPath = path.join(__dirname, '.venv', 'Scripts', 'python.exe');
+    const pythonPath = app.isPackaged
+      ? path.join(process.resourcesPath, 'sentinel-engine.exe')
+      : path.join(__dirname, '.venv', 'Scripts', 'python.exe');
     const python = spawn(pythonPath, ['-m', 'src.engine'], { cwd: __dirname });
     
     let output = '';

@@ -1,16 +1,42 @@
 {
   "name": "sentinel",
   "version": "1.0.0",
-  "description": "",
+  "description": "Local Windows endpoint security monitor powered by Python and Electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build:python": "if not exist dist-python mkdir dist-python && .venv\\Scripts\\pyinstaller.exe --onefile --name sentinel-engine --distpath dist-python --workpath .pyinstaller-build --specpath .pyinstaller-build src\\engine.py",
+    "dist": "npm run build:python && electron-builder --win"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "electron": "^44.4.5"
+    "electron": "^44.4.5",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.sentinel.endpointmonitor",
+    "productName": "Sentinel",
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "src/**/*",
+      "!src/**/__pycache__/**"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "extraResources": [
+      {
+        "from": "dist-python/sentinel-engine.exe",
+        "to": "sentinel-engine.exe"
+      }
+    ]
   }
 }
