@@ -34,9 +34,12 @@ body::before {
   content: "";
   pointer-events: none;
   background: radial-gradient(circle at 75% 0%, rgba(255,255,255,.92), transparent 32%), radial-gradient(circle at 8% 92%, rgba(165,225,221,.3), transparent 26%), linear-gradient(120deg, transparent 0 48%, rgba(255,255,255,.22) 48.1% 48.3%, transparent 48.4%);
+  animation: ambient-drift 18s ease-in-out infinite alternate;
 }
+body::after { position: fixed; inset: 0; z-index: -1; pointer-events: none; content: ""; opacity: .55; background: radial-gradient(circle at 18% 22%, var(--cyan) 0 1px, transparent 2px), radial-gradient(circle at 72% 16%, var(--amber) 0 1px, transparent 2px), radial-gradient(circle at 84% 68%, var(--cyan) 0 1px, transparent 2px), radial-gradient(circle at 36% 82%, var(--amber) 0 1px, transparent 2px); background-size: 380px 310px, 440px 360px, 520px 410px, 610px 470px; animation: particle-drift 24s linear infinite; }
 button { font: inherit; }
 .app-shell { display: flex; min-height: 100vh; }
+.app-shell::before { position: fixed; top: -20%; right: -10%; width: 70vw; height: 70vw; border: 1px solid rgba(21,126,135,.1); border-radius: 50%; content: ""; pointer-events: none; animation: radar-sweep 22s linear infinite; }
 .sidebar {
   width: 245px;
   flex: 0 0 245px;
@@ -182,6 +185,9 @@ td { color: #40545d; }
 @keyframes node-ping { 50% { box-shadow: 0 0 0 5px rgba(21,126,135,.12); } }
 @keyframes slow-turn { to { transform: rotate(360deg); } }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes ambient-drift { 0% { background-position: 0 0, 0 0, 0 0; } 100% { background-position: 5% -3%, -4% 6%, 2% 5%; } }
+@keyframes particle-drift { from { transform: translate3d(-1%, -1%, 0); } to { transform: translate3d(2%, 2%, 0); } }
+@keyframes radar-sweep { to { transform: rotate(360deg); } }
 @media (max-width: 900px) { .content { padding: 32px 28px 56px; } .report-grid { grid-template-columns: 1fr; } }
 @media (max-width: 720px) {
   .app-shell { display: block; }

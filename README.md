@@ -1,42 +1,100 @@
 # Sentinel
 
-## Download for Windows
+> A local Windows endpoint security observatory for seeing what is running, what is connecting, and what deserves attention.
 
-[**Download Sentinel Installer**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.2/Sentinel.Setup.1.0.2.exe) | [**Download Portable App**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.2/Sentinel.1.0.2.exe)
-
-Install Sentinel with the first link to add it as a normal Windows application with Start Menu and Desktop shortcuts. Use the portable link to run it without installing. Both downloads include the Python security engine; Node.js and Python are not required.
-
-Sentinel is a local Windows endpoint security monitor. Python collects live system data and applies the detection rules; Electron provides the desktop interface. No web server, cloud service, or database is required.
+[![Release](https://img.shields.io/github/v/release/Maralbyek/Sentinel?label=latest%20release&color=157e87)](https://github.com/Maralbyek/Sentinel/releases/latest)
+[![Platform](https://img.shields.io/badge/platform-Windows-17242d)](https://github.com/Maralbyek/Sentinel)
+[![Privacy](https://img.shields.io/badge/data-local%20only-368667)](https://github.com/Maralbyek/Sentinel)
 
 ## Download Sentinel for Windows
 
-Download the latest Windows installer from the [GitHub Releases page](https://github.com/Maralbyek/Sentinel/releases/latest). Run the downloaded installer and follow the prompts. It installs Sentinel as a normal Windows application, adds it to the Start Menu, and can create a Desktop shortcut.
+| Option | Download | Use it when |
+| --- | --- | --- |
+| Installer | [**Sentinel.Setup.1.0.2.exe**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.2/Sentinel.Setup.1.0.2.exe) | You want Start Menu and Desktop shortcuts |
+| Portable | [**Sentinel.1.0.2.exe**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.2/Sentinel.1.0.2.exe) | You want to run it without installing |
 
-The installer stores the app under the current user's local applications folder by default. No administrator access is required. The portable `.exe` is also available on the Releases page when you want to run Sentinel without installing it.
+Both files are built from the current `main` branch and include the bundled Python engine. The app reads the local Windows machine only: no server, cloud relay, database, or account is involved.
 
-## Get the project
+> Windows SmartScreen may show a warning because this portfolio release is not code-signed yet. The files above are the official assets published in this repository. A trusted Windows signing certificate is planned for a later release.
 
-Repository: <https://github.com/Maralbyek/Sentinel>
+## What it looks like
 
-Clone it with Git:
+![Sentinel overview](docs/sentinel-overview.png)
+
+The overview is designed as a readable security report rather than a wall of tables. It includes an inspection path, signal map, live telemetry bars, posture ring, process activity plot, network map, evidence stack, local search, and report notes.
+
+## What Sentinel checks
+
+- Running processes, CPU, memory, users, and executable paths
+- Startup and persistence entries
+- Active network connections and listening ports
+- Drive capacity and storage summaries
+- Windows Security event data where permissions allow it
+- Defender, firewall, and hosts-file status
+- Rules for suspicious locations, orphaned startup items, exposed services, and security controls
+
+## Architecture
+
+Python owns the security work. Electron is only the desktop shell.
+
+```text
+Windows machine
+      |
+      v
+Python collectors  --->  raw facts
+      |
+      v
+Python rules        --->  findings
+      |
+      v
+src.engine          --->  one JSON scan result
+      |
+      v
+Electron main.js    --->  IPC bridge
+      |
+      v
+Renderer UI         --->  report, diagrams, tables
+```
+
+The renderer never reimplements detection logic. It receives the JSON result through the restricted API exposed by `preload.js`.
+
+## Project structure
+
+```text
+sentinel/
+├── main.js                         Electron main process and Python bridge
+├── preload.js                      Restricted contextBridge API
+├── package.json                    Run and Windows packaging scripts
+├── requirements.txt                Python dependencies
+├── README.md                       Project documentation
+├── docs/
+│   └── sentinel-overview.png       Current UI screenshot
+├── src/
+│   ├── engine.py                   Scan orchestration and JSON output
+│   ├── collectors/
+│   │   ├── processes.py            Running process facts
+│   │   ├── startup.py              Startup and persistence facts
+│   │   ├── network.py               Connections and listening ports
+│   │   ├── storage.py              Drives and storage facts
+│   │   ├── events.py                Windows Security events
+│   │   └── security_status.py       Defender, firewall, hosts file
+│   ├── rules/
+│   │   └── detectors.py             Security rules and findings
+│   └── ui/
+│       ├── index.html               Report layout
+│       ├── renderer.js              Navigation, search, rendering
+│       └── style.css                Glass observatory visual system
+└── .github/workflows/
+    └── windows-release.yml          Automated Windows release build
+```
+
+## Run from source
+
+Requirements: Windows 10 or later, Node.js 20+, Python 3.11+, and Git.
 
 ```powershell
 git clone https://github.com/Maralbyek/Sentinel.git
 cd Sentinel
-```
-
-## Run from source on Windows
-
-Requirements:
-
-- Windows 10 or later
-- Node.js 20 or later
-- Python 3.11 or later
-- Git
-
-In PowerShell, from the project folder:
-
-```powershell
 npm install
 py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
@@ -44,33 +102,30 @@ py -3 -m venv .venv
 npm start
 ```
 
-Click **Run scan** after the window opens. Some Windows Security event data may require starting the application with administrator privileges.
+Click **Run scan** to collect a live report. Some Security event data may require administrator privileges.
 
-## Build a Windows installer yourself
-
-After installing the dependencies above:
+## Build a Windows release
 
 ```powershell
 npm run dist
 ```
 
-The generated installer and portable executable appear in the `dist` folder. These builds include the bundled Python engine, so recipients do not need Node.js, Python, or the repository to run the released app.
+The installer and portable executable are written to `dist/`. The build bundles the Python engine with PyInstaller and packages both NSIS and portable Windows targets through Electron Builder.
 
-The Python runtime and `.venv` are intentionally kept outside Git because virtual environments are machine-specific. Publish the generated files as GitHub Release assets so users can download and launch Sentinel directly.
+To publish a release, update the version in `package.json`, build, create a matching `v*` tag, and upload the two generated `.exe` files to GitHub Releases. The included GitHub Actions workflow can also build tagged releases automatically.
 
-## Test the Python engine
+## Test the Python engine directly
 
 ```powershell
-\.venv\Scripts\python.exe -m src.engine
+.\.venv\Scripts\python.exe -m src.engine
 ```
 
-The command prints one JSON object containing processes, startup items, network connections, listening ports, drives, and findings.
+The command prints one JSON object containing processes, startup items, connections, listening ports, drives, and findings.
 
-## Project layout
+## Privacy and permissions
 
-- `main.js` - Electron main process and Python subprocess bridge
-- `preload.js` - restricted IPC API exposed to the renderer
-- `src/collectors/` - Windows data collectors
-- `src/rules/` - security detection rules
-- `src/engine.py` - scan orchestration and JSON output
-- `src/ui/` - desktop interface
+Sentinel runs locally and does not send scan data anywhere. Windows may restrict access to some process details or Security event records unless the application is started with elevated permissions. Only run downloaded binaries from the official repository or build the project from source yourself.
+
+## Current release
+
+**v1.0.2** · [Release notes and downloads](https://github.com/Maralbyek/Sentinel/releases/tag/v1.0.2)
