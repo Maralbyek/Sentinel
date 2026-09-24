@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel | Endpoint Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">S</div>
+        <div>
+          <div class="brand-name">SENTINEL</div>
+          <div class="brand-subtitle">Endpoint monitor</div>
+        </div>
+      </div>
+
+      <nav class="rail" aria-label="Primary navigation">
+        <button class="rail-item active" data-view="overview" type="button"><span class="rail-icon">01</span><span>Overview</span></button>
+        <button class="rail-item" data-view="processes" type="button"><span class="rail-icon">02</span><span>Processes</span></button>
+        <button class="rail-item" data-view="startup" type="button"><span class="rail-icon">03</span><span>Startup</span></button>
+        <button class="rail-item" data-view="network" type="button"><span class="rail-icon">04</span><span>Network</span></button>
+        <button class="rail-item" data-view="ports" type="button"><span class="rail-icon">05</span><span>Listening ports</span></button>
+        <button class="rail-item" data-view="storage" type="button"><span class="rail-icon">06</span><span>Storage</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-dot"></div>
+        <div>
+          <div class="status-label">Local inspection</div>
+          <div id="rail-status" class="status-value">Ready for scan</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">WINDOWS / LOCAL HOST</div>
+          <h1 id="view-title">Overview</h1>
+        </div>
+        <button id="scan-btn" class="scan-button" type="button"><span class="scan-symbol">+</span> Run scan</button>
+      </header>
+
+      <section id="view-overview" class="view overview-view">
+        <div class="overview-intro">
+          <div>
+            <div class="eyebrow">SECURITY POSTURE</div>
+            <h2>System intelligence, at a glance.</h2>
+          </div>
+          <div class="scope-note"><span class="scope-line"></span> Data stays on this machine</div>
+        </div>
+        <div class="section-heading">
+          <h3>Latest findings</h3>
+          <span class="section-caption">Rules engine output</span>
+        </div>
+        <div id="findings-list" class="findings-list"></div>
+        <div id="overview-empty" class="empty-state">Run a scan to inspect processes, persistence, network activity, and system security controls.</div>
+      </section>
+
+      <section id="view-processes" class="view hidden">
+        <div class="section-heading"><h3>Running processes</h3><span class="section-caption">Live process inventory</span></div>
+        <div class="table-wrap"><table id="table-processes"><thead><tr><th>Process</th><th>PID</th><th>CPU</th><th>Memory</th><th>Executable path</th></tr></thead><tbody></tbody></table></div>
+      </section>
+
+      <section id="view-startup" class="view hidden">
+        <div class="section-heading"><h3>Startup entries</h3><span class="section-caption">Persistence locations</span></div>
+        <div class="table-wrap"><table id="table-startup"><thead><tr><th>Name</th><th>Source</th><th>Command</th></tr></thead><tbody></tbody></table></div>
+      </section>
+
+      <section id="view-network" class="view hidden">
+        <div class="section-heading"><h3>Network connections</h3><span class="section-caption">Active sockets</span></div>
+        <div class="table-wrap"><table id="table-network"><thead><tr><th>Process</th><th>Local address</th><th>Remote address</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+      </section>
+
+      <section id="view-ports" class="view hidden">
+        <div class="section-heading"><h3>Listening ports</h3><span class="section-caption">Services accepting connections</span></div>
+        <div class="table-wrap"><table id="table-ports"><thead><tr><th>Process</th><th>Local address</th></tr></thead><tbody></tbody></table></div>
+      </section>
+
+      <section id="view-storage" class="view hidden">
+        <div class="section-heading"><h3>Storage volumes</h3><span class="section-caption">Capacity and utilization</span></div>
+        <div id="storage-drives" class="storage-drives"></div>
+      </section>
+    </main>
+  </div>
+  <script src="./renderer.js"></script>
+</body>
+</html>
