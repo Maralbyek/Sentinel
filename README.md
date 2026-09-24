@@ -2,7 +2,7 @@
 
 ## Download for Windows
 
-[**Download Sentinel Installer**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.0/Sentinel%20Setup%201.0.0.exe) | [**Download Portable App**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.0/Sentinel%201.0.0.exe)
+[**Download Sentinel Installer**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.0/Sentinel.Setup.1.0.0.exe) | [**Download Portable App**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.0/Sentinel.1.0.0.exe)
 
 Install Sentinel with the first link to add it as a normal Windows application with Start Menu and Desktop shortcuts. Use the portable link to run it without installing. Both downloads include the Python security engine; Node.js and Python are not required.
 
