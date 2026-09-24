@@ -44,7 +44,10 @@
           <div class="eyebrow">WINDOWS / LOCAL HOST</div>
           <h1 id="view-title">Overview</h1>
         </div>
-        <button id="scan-btn" class="scan-button" type="button"><span class="scan-symbol">+</span> Run scan</button>
+        <div class="topbar-actions">
+          <label class="search-box"><span>⌕</span><input id="evidence-search" type="search" placeholder="Search evidence" autocomplete="off"></label>
+          <button id="scan-btn" class="scan-button" type="button"><span class="scan-symbol">+</span> Run scan</button>
+        </div>
       </header>
 
       <section id="view-overview" class="view overview-view">
@@ -91,6 +94,13 @@
         <div id="findings-list" class="findings-list"></div>
         <div id="overview-empty" class="empty-state">Run a scan to inspect processes, persistence, network activity, and system security controls.</div>
         <div class="report-footer"><span>Sentinel / endpoint intelligence</span><span id="report-timestamp">Awaiting first scan</span></div>
+        <div class="visual-heading"><div><div class="eyebrow">VISUALIZATION LAB / 02</div><h3>How the machine reads</h3></div><span class="section-caption">Each phase, one visual language</span></div>
+        <div class="visual-lab">
+          <article class="viz-card viz-posture"><div class="viz-card-head"><span>01 / posture</span><b>Signal balance</b></div><div class="viz-donut"><div><strong id="viz-findings">--</strong><small>findings</small></div></div><p>Risk signals are isolated from the wider system picture.</p></article>
+          <article class="viz-card viz-process"><div class="viz-card-head"><span>02 / observe</span><b>Execution field</b></div><div id="process-plot" class="process-plot"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p><strong id="viz-processes">--</strong> running processes mapped by activity.</p></article>
+          <article class="viz-card viz-network"><div class="viz-card-head"><span>03 / trace</span><b>Network paths</b></div><div class="network-map"><span class="map-core">HOST</span><i></i><i></i><i></i><i></i><i></i></div><p><strong id="viz-connections">--</strong> connections checked against their context.</p></article>
+          <article class="viz-card viz-check"><div class="viz-card-head"><span>04 / explain</span><b>Evidence stack</b></div><div class="evidence-stack"><span>DEFENDER <b>CHECKED</b></span><span>FIREWALL <b>CHECKED</b></span><span>RULES <b id="viz-rules">--</b></span></div><p>Raw collection becomes a readable report.</p></article>
+        </div>
       </section>
 
       <section id="view-processes" class="view hidden">
@@ -118,6 +128,7 @@
         <div id="storage-drives" class="storage-drives"></div>
       </section>
     </main>
+    <footer class="app-footer"><span>SENTINEL / LOCAL SECURITY OBSERVATORY</span><span>ENGINE ONLINE · DATA REMAINS ON DEVICE</span><span>v1.0.1</span></footer>
   </div>
   <script src="./renderer.js"></script>
 </body>

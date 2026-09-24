@@ -28,6 +28,9 @@ railItems.forEach(item => {
 // ---- Scan button ----
 const scanBtn = document.getElementById('scan-btn');
 const railStatus = document.getElementById('rail-status');
+const evidenceSearch = document.getElementById('evidence-search');
+
+evidenceSearch.addEventListener('input', () => applySearch(evidenceSearch.value));
 
 scanBtn.addEventListener('click', async () => {
   scanBtn.disabled = true;
@@ -63,6 +66,10 @@ function renderAll(data) {
   document.getElementById('metric-drives').textContent = metrics.drives;
   document.getElementById('posture-score').textContent = metrics.findings === 0 ? 'OK' : metrics.findings;
   document.getElementById('report-timestamp').textContent = `Captured ${new Date().toLocaleString()}`;
+  document.getElementById('viz-processes').textContent = metrics.processes;
+  document.getElementById('viz-connections').textContent = metrics.connections;
+  document.getElementById('viz-findings').textContent = metrics.findings;
+  document.getElementById('viz-rules').textContent = metrics.findings ? `${metrics.findings} FLAGGED` : 'CLEAR';
   setBar('bar-processes', metrics.processes, Math.max(metrics.processes, metrics.connections, 1));
   setBar('bar-connections', metrics.connections, Math.max(metrics.processes, metrics.connections, 1));
   setBar('bar-findings', metrics.findings, Math.max(metrics.findings, 5));
@@ -86,6 +93,17 @@ function renderAll(data) {
   ], null);
 
   renderStorage(data.drives || []);
+  applySearch(evidenceSearch.value);
+}
+
+function applySearch(query) {
+  const needle = query.trim().toLowerCase();
+  document.querySelectorAll('tbody tr').forEach(row => {
+    row.hidden = Boolean(needle) && !row.textContent.toLowerCase().includes(needle);
+  });
+  document.querySelectorAll('.finding-card').forEach(card => {
+    card.hidden = Boolean(needle) && !card.textContent.toLowerCase().includes(needle);
+  });
 }
 
 // ---- Findings (Overview tab) ----
