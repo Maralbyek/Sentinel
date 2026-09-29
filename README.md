@@ -10,8 +10,7 @@
 
 | Option | Download | Use it when |
 | --- | --- | --- |
-| Installer | [**Sentinel.Setup.1.0.4.exe**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.4/Sentinel.Setup.1.0.4.exe) | You want Start Menu and Desktop shortcuts |
-| Portable | [**Sentinel.1.0.4.exe**](https://github.com/Maralbyek/Sentinel/releases/download/v1.0.4/Sentinel.1.0.4.exe) | You want to run it without installing |
+| Installer | [Release notes and downloads](https://github.com/Maralbyek/Sentinel/releases/tag/v1.0.4)| You want Start Menu and Desktop shortcuts |
 
 Both files are built from the current `main` branch and include the bundled Python engine. The app reads the local Windows machine only: no server, cloud relay, database, or account is involved.
 
@@ -125,7 +124,3 @@ The command prints one JSON object containing processes, startup items, connecti
 ## Privacy and permissions
 
 Sentinel runs locally and does not send scan data anywhere. Windows may restrict access to some process details or Security event records unless the application is started with elevated permissions. Only run downloaded binaries from the official repository or build the project from source yourself.
-
-## Current release
-
-**v1.0.4** · [Release notes and downloads](https://github.com/Maralbyek/Sentinel/releases/tag/v1.0.4)
