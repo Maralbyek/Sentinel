@@ -20,7 +20,7 @@ Both files are built from the current `main` branch and include the bundled Pyth
 ## What it looks like
 
 ![Sentinel overview](https://github.com/Maralbyek/Sentinel/blob/main/docs/Screenshot%202026-09-29%20123158.png)
-![Visualization appearance](https://github.com/Maralbyek/Sentinel/blob/main/docs/Screenshot%202026-09-29%20124042.png)
+![Visualization appearance](https://github.com/Maralbyek/Sentinel/blob/main/docs/Screenshot%202026-09-29%20124435.png)
 
 The overview is designed as a readable security report rather than a wall of tables. It includes an inspection path, signal map, live telemetry bars, posture ring, process activity plot, network map, evidence stack, local search, and report notes.
 
