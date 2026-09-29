@@ -2,7 +2,7 @@
 
 > A local Windows endpoint security observatory for seeing what is running, what is connecting, and what deserves attention.
 
-[![Release](https://img.shields.io/github/v/release/Maralbyek/Sentinel?label=latest%20release&color=157e87)](https://github.com/Maralbyek/Sentinel/releases/latest)
+
 [![Platform](https://img.shields.io/badge/platform-Windows-17242d)](https://github.com/Maralbyek/Sentinel)
 [![Privacy](https://img.shields.io/badge/data-local%20only-368667)](https://github.com/Maralbyek/Sentinel)
 
