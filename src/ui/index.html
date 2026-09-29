@@ -3,132 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sentinel | Endpoint Monitor</title>
+  <title>Sentinel — Endpoint Observatory</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">S</div>
-        <div>
-          <div class="brand-name">SENTINEL</div>
-          <div class="brand-subtitle">Endpoint monitor</div>
-        </div>
-      </div>
-
+      <div class="brand"><div class="brand-mark"><span>◈</span></div><div><div class="brand-name">SENTINEL<span class="brand-period">.</span></div><div class="brand-subtitle">ENDPOINT INTELLIGENCE</div></div></div>
+      <div class="rail-heading">WORKSPACE <span>01 / 06</span></div>
       <nav class="rail" aria-label="Primary navigation">
-        <button class="rail-item active" data-view="overview" type="button"><span class="rail-glyph">◈</span><span>Overview</span></button>
-        <button class="rail-item" data-view="processes" type="button"><span class="rail-glyph">▦</span><span>Processes</span></button>
-        <button class="rail-item" data-view="startup" type="button"><span class="rail-glyph">↗</span><span>Startup</span></button>
-        <button class="rail-item" data-view="network" type="button"><span class="rail-glyph">⌁</span><span>Network</span></button>
-        <button class="rail-item" data-view="ports" type="button"><span class="rail-glyph">◎</span><span>Listening ports</span></button>
-        <button class="rail-item" data-view="storage" type="button"><span class="rail-glyph">▤</span><span>Storage</span></button>
+        <button class="rail-item active" data-view="overview" type="button"><span class="rail-glyph">◈</span><span class="rail-index">01</span><span>Overview</span></button>
+        <button class="rail-item" data-view="processes" type="button"><span class="rail-glyph">▦</span><span class="rail-index">02</span><span>Processes</span></button>
+        <button class="rail-item" data-view="startup" type="button"><span class="rail-glyph">↗</span><span class="rail-index">03</span><span>Startup</span></button>
+        <button class="rail-item" data-view="network" type="button"><span class="rail-glyph">⌁</span><span class="rail-index">04</span><span>Network</span></button>
+        <button class="rail-item" data-view="ports" type="button"><span class="rail-glyph">◎</span><span class="rail-index">05</span><span>Listening ports</span></button>
+        <button class="rail-item" data-view="storage" type="button"><span class="rail-glyph">▤</span><span class="rail-index">06</span><span>Storage</span></button>
       </nav>
-
-      <div class="sidebar-footer">
-        <div class="status-dot"></div>
-        <div>
-          <div class="status-label">Local inspection</div>
-          <div id="rail-status" class="status-value">Ready for scan</div>
-        </div>
-      </div>
+      <div class="sidebar-bottom"><div class="sidebar-insignia">S<span>—</span></div><div class="sidebar-footer"><div class="status-dot"></div><div><div class="status-label">SYSTEM STATUS</div><div id="rail-status" class="status-value">Ready for scan</div></div></div><div class="privacy-note">LOCAL-FIRST SECURITY<br>YOUR DATA STAYS HERE ↗</div></div>
     </aside>
 
     <main class="content">
-      <header class="topbar">
-        <div>
-          <div class="eyebrow">WINDOWS / LOCAL HOST</div>
-          <h1 id="view-title">Overview</h1>
-        </div>
-        <div class="topbar-actions">
-          <label class="search-box"><span>⌕</span><input id="evidence-search" type="search" placeholder="Search evidence" autocomplete="off"></label>
-          <button id="scan-btn" class="scan-button" type="button"><span class="scan-symbol">+</span> Run scan</button>
-        </div>
-      </header>
+      <header class="topbar"><div class="breadcrumb">WORKSPACE <span>/</span> <strong id="view-title">Overview</strong></div><div class="topbar-actions"><span class="live-indicator"><i></i> LOCAL INSTANCE</span><label class="search-box"><span aria-hidden="true">⌕</span><input id="evidence-search" type="search" placeholder="Search evidence..." aria-label="Search evidence" autocomplete="off"><kbd>⌕</kbd></label><button id="scan-btn" class="scan-button" type="button"><span class="scan-symbol">↗</span> Run scan</button></div></header>
 
       <section id="view-overview" class="view overview-view">
-        <div class="report-hero">
-          <div class="hero-copy">
-            <div class="eyebrow">LOCAL SECURITY REPORT / 01</div>
-            <h2>Know what is<br><em>happening.</em></h2>
-            <p>Sentinel reads the machine in front of you, follows the signals, and turns the noise into a clear security brief.</p>
-            <div class="scope-note"><span class="scope-line"></span> Private by design · no cloud relay</div>
-          </div>
-          <div class="posture-orbit" aria-label="Current posture">
-            <div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div>
-            <div class="orbit-core"><span id="posture-score">--</span><small>signals</small></div>
-            <span class="orbit-spark spark-one"></span><span class="orbit-spark spark-two"></span>
-          </div>
-        </div>
-        <div class="report-grid">
-          <div class="phase-panel">
-            <div class="panel-kicker">INSPECTION PATH</div>
-            <div class="phase-track">
-              <div class="phase active"><span class="phase-node">01</span><div><b>Observe</b><small>processes + startup</small></div></div>
-              <div class="phase-line"></div>
-              <div class="phase"><span class="phase-node">02</span><div><b>Trace</b><small>network + ports</small></div></div>
-              <div class="phase-line"></div>
-              <div class="phase"><span class="phase-node">03</span><div><b>Check</b><small>defender + firewall</small></div></div>
-              <div class="phase-line"></div>
-              <div class="phase"><span class="phase-node">04</span><div><b>Explain</b><small>rules + report</small></div></div>
-            </div>
-          </div>
-          <div class="signal-panel">
-            <div class="panel-kicker">SIGNAL MAP <span>LIVE COUNTS</span></div>
-            <div class="activity-visual" aria-label="Telemetry activity visualization">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="signal-bars">
-              <div class="signal-row"><span>Processes</span><div class="signal-bar"><i id="bar-processes"></i></div><b id="metric-processes">--</b></div>
-              <div class="signal-row"><span>Connections</span><div class="signal-bar"><i id="bar-connections"></i></div><b id="metric-connections">--</b></div>
-              <div class="signal-row"><span>Findings</span><div class="signal-bar alert"><i id="bar-findings"></i></div><b id="metric-findings">--</b></div>
-              <div class="signal-row"><span>Volumes</span><div class="signal-bar"><i id="bar-drives"></i></div><b id="metric-drives">--</b></div>
-            </div>
-          </div>
-        </div>
-        <div class="section-heading"><h3>Report notes</h3><span class="section-caption">Prioritized by the rules engine</span><span class="search-label">SEARCHING / SECURITY SIGNALS</span></div>
-        <div id="findings-list" class="findings-list"></div>
-        <div id="overview-empty" class="empty-state">Run a scan to inspect processes, persistence, network activity, and system security controls.</div>
-        <div class="report-footer"><span>Sentinel / endpoint intelligence</span><span id="report-timestamp">Awaiting first scan</span></div>
-        <div class="visual-heading"><div><div class="eyebrow">VISUALIZATION LAB / 02</div><h3>How the machine reads</h3></div><span class="section-caption">Each phase, one visual language</span></div>
-        <div class="visual-lab">
-          <article class="viz-card viz-posture"><div class="viz-card-head"><span>01 / posture</span><b>Signal balance</b></div><div class="viz-donut"><div><strong id="viz-findings">--</strong><small>findings</small></div></div><p>Risk signals are isolated from the wider system picture.</p></article>
-          <article class="viz-card viz-process"><div class="viz-card-head"><span>02 / observe</span><b>Execution field</b></div><div id="process-plot" class="process-plot"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p><strong id="viz-processes">--</strong> running processes mapped by activity.</p></article>
-          <article class="viz-card viz-network"><div class="viz-card-head"><span>03 / trace</span><b>Network paths</b></div><div class="network-map"><span class="map-core">HOST</span><i></i><i></i><i></i><i></i><i></i></div><p><strong id="viz-connections">--</strong> connections checked against their context.</p></article>
-          <article class="viz-card viz-check"><div class="viz-card-head"><span>04 / explain</span><b>Evidence stack</b></div><div class="evidence-stack"><span>DEFENDER <b>CHECKED</b></span><span>FIREWALL <b>CHECKED</b></span><span>RULES <b id="viz-rules">--</b></span></div><p>Raw collection becomes a readable report.</p></article>
-        </div>
-      </section>
+        <div class="report-hero"><div class="hero-copy"><div class="eyebrow"><span class="eyebrow-line"></span> THE OBSERVATORY <span class="hero-edition">/ SYSTEM OVERVIEW</span></div><h1>See everything.<br><em>Miss nothing.</em></h1><p>Clarity in every signal. A real-time view of what’s running, connecting, and demanding your attention.</p><div class="hero-meta"><span class="hero-meta-dot"></span> YOUR MACHINE, UNDER THE MICROSCOPE <span class="hero-meta-rule"></span> 001 / 006</div></div><div class="posture-orbit" aria-label="Current posture"><div class="orbit-halo"></div><div class="orbit-crosshair"></div><div class="orbit-scanner" aria-hidden="true"></div><div class="orbit-readout"><span class="readout-label">THREAT SIGNALS</span><strong id="posture-score">--</strong><small>AWAITING SCAN</small></div><span class="orbit-tag tag-top">◦ LIVE TELEMETRY</span><span class="orbit-tag tag-bottom">SYSTEM / 00.01</span></div></div>
+        <div class="overview-strip"><span><i></i> OBSERVATORY ACTIVE</span><span>ALL SIGNALS ARE PROCESSED LOCALLY</span><span>SCROLL TO EXPLORE ↓</span></div>
 
-      <section id="view-processes" class="view hidden">
-        <div class="section-heading"><h3>Running processes</h3><span class="section-caption">Live process inventory</span><span class="search-label">SEARCHING / EXECUTION</span></div>
-        <div class="table-wrap"><table id="table-processes"><thead><tr><th>Process</th><th>PID</th><th>CPU</th><th>Memory</th><th>Executable path</th></tr></thead><tbody></tbody></table></div>
-      </section>
+        <div class="section-heading section-heading-first"><div><div class="eyebrow">01 / SYSTEM INTELLIGENCE</div><h2>At a glance<span class="title-period">.</span></h2></div><span class="section-caption">The signals that matter, without the noise.</span></div>
+        <div class="metrics-grid"><article class="metric-tile"><div class="metric-label">01 / PROCESSES <span>↗</span></div><div class="metric-value" id="metric-processes">--</div><div class="metric-bottom">Running on your device<div class="metric-line"><i id="bar-processes"></i></div></div></article><article class="metric-tile"><div class="metric-label">02 / CONNECTIONS <span>⌁</span></div><div class="metric-value" id="metric-connections">--</div><div class="metric-bottom">Active network paths<div class="metric-line"><i id="bar-connections"></i></div></div></article><article class="metric-tile metric-alert"><div class="metric-label">03 / FINDINGS <span>◎</span></div><div class="metric-value" id="metric-findings">--</div><div class="metric-bottom">Signals requiring review<div class="metric-line"><i id="bar-findings"></i></div></div></article><article class="metric-tile"><div class="metric-label">04 / VOLUMES <span>▤</span></div><div class="metric-value" id="metric-drives">--</div><div class="metric-bottom">Storage volumes<div class="metric-line"><i id="bar-drives"></i></div></div></article></div>
 
-      <section id="view-startup" class="view hidden">
-        <div class="section-heading"><h3>Startup entries</h3><span class="section-caption">Persistence locations</span><span class="search-label">SEARCHING / PERSISTENCE</span></div>
-        <div class="table-wrap"><table id="table-startup"><thead><tr><th>Name</th><th>Source</th><th>Command</th></tr></thead><tbody></tbody></table></div>
-      </section>
+        <div class="report-grid"><div class="phase-panel"><div class="panel-kicker">INSPECTION SEQUENCE <span>01 — 04</span></div><div class="phase-track"><div class="phase active"><span class="phase-node">01</span><div><b>Observe</b><small>Processes + startup</small></div></div><div class="phase-line"></div><div class="phase"><span class="phase-node">02</span><div><b>Trace</b><small>Network + ports</small></div></div><div class="phase-line"></div><div class="phase"><span class="phase-node">03</span><div><b>Check</b><small>Defender + firewall</small></div></div><div class="phase-line"></div><div class="phase"><span class="phase-node">04</span><div><b>Explain</b><small>Rules + report</small></div></div></div></div><div class="signal-panel"><div class="panel-kicker">SIGNAL ACTIVITY <span>LIVE FREQUENCY</span></div><div class="activity-visual" aria-label="Telemetry activity visualization"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="signal-panel-foot"><span>ACTIVE TELEMETRY</span><span>▂ ▄ ▆ ▃ ▇ ▅ ▂</span></div></div></div>
 
-      <section id="view-network" class="view hidden">
-        <div class="section-heading"><h3>Network connections</h3><span class="section-caption">Active sockets</span><span class="search-label">SEARCHING / TRAFFIC</span></div>
-        <div class="table-wrap"><table id="table-network"><thead><tr><th>Process</th><th>Local address</th><th>Remote address</th><th>Status</th></tr></thead><tbody></tbody></table></div>
-      </section>
+        <div class="section-heading report-notes-heading"><div><div class="eyebrow">02 / REPORT NOTES</div><h2>What needs attention<span class="title-period">.</span></h2></div><span class="section-caption">Prioritized by the rules engine</span><span class="search-label">SEARCHING / SECURITY SIGNALS</span></div><div id="findings-list" class="findings-list"></div><div id="overview-empty" class="empty-state"><span class="empty-glyph">◎</span><div><strong>No report yet.</strong><span>Run a scan to inspect processes, persistence, network activity, and system security controls.</span></div></div><div class="report-footer"><span>SENTINEL / ENDPOINT INTELLIGENCE</span><span id="report-timestamp">AWAITING FIRST SCAN</span></div>
 
-      <section id="view-ports" class="view hidden">
-        <div class="section-heading"><h3>Listening ports</h3><span class="section-caption">Services accepting connections</span><span class="search-label">SEARCHING / EXPOSURE</span></div>
-        <div class="table-wrap"><table id="table-ports"><thead><tr><th>Process</th><th>Local address</th></tr></thead><tbody></tbody></table></div>
+        <div class="section-heading visual-heading"><div><div class="eyebrow">03 / SIGNAL TOPOLOGY</div><h2>Under the surface<span class="title-period">.</span></h2></div><span class="section-caption">Four lenses. One complete picture.</span></div><div class="visual-lab"><article class="viz-card viz-posture"><div class="viz-card-head"><span>01 / POSTURE</span><b>Signal balance ↗</b></div><div class="viz-donut"><div><strong id="viz-findings">--</strong><small>FINDINGS</small></div></div><p>Risk signals isolated from the wider system picture.</p></article><article class="viz-card viz-process"><div class="viz-card-head"><span>02 / OBSERVE</span><b>Execution field ↗</b></div><div id="process-plot" class="process-plot"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p><strong id="viz-processes">--</strong> running processes mapped by activity.</p></article><article class="viz-card viz-network"><div class="viz-card-head"><span>03 / TRACE</span><b>Network paths ↗</b></div><div class="network-map"><span class="map-core">HOST</span><i></i><i></i><i></i><i></i><i></i></div><p><strong id="viz-connections">--</strong> connections checked against context.</p></article><article class="viz-card viz-check"><div class="viz-card-head"><span>04 / EXPLAIN</span><b>Evidence stack ↗</b></div><div class="evidence-stack"><span>DEFENDER <b>CHECKED</b></span><span>FIREWALL <b>CHECKED</b></span><span>RULES <b id="viz-rules">--</b></span></div><p>Raw collection becomes a readable report.</p></article></div>
       </section>
-
-      <section id="view-storage" class="view hidden">
-        <div class="section-heading"><h3>Storage volumes</h3><span class="section-caption">Capacity and utilization</span><span class="search-label">SEARCHING / STORAGE</span></div>
-        <div id="storage-drives" class="storage-drives"></div>
-      </section>
-    </main>
-    <footer class="app-footer"><span>SENTINEL / LOCAL SECURITY OBSERVATORY</span><span>ENGINE ONLINE · DATA REMAINS ON DEVICE</span><span>v1.0.3</span></footer>
+      <section id="view-processes" class="view hidden"><div class="data-header"><div class="eyebrow">02 / EXECUTION</div><h1>Running processes<span class="title-period">.</span></h1><p>Live process inventory on this device.</p></div><div class="section-heading"><h3>Process inventory</h3><span class="section-caption">PROCESS / PID / CPU / MEMORY / PATH</span><span class="search-label">SEARCHING / EXECUTION</span></div><div class="table-wrap"><table id="table-processes"><thead><tr><th>Process</th><th>PID</th><th>CPU</th><th>Memory</th><th>Executable path</th></tr></thead><tbody></tbody></table></div></section>
+      <section id="view-startup" class="view hidden"><div class="data-header"><div class="eyebrow">03 / PERSISTENCE</div><h1>Startup entries<span class="title-period">.</span></h1><p>What launches when your device wakes up.</p></div><div class="section-heading"><h3>Startup inventory</h3><span class="section-caption">PERSISTENCE LOCATIONS</span><span class="search-label">SEARCHING / PERSISTENCE</span></div><div class="table-wrap"><table id="table-startup"><thead><tr><th>Name</th><th>Source</th><th>Command</th></tr></thead><tbody></tbody></table></div></section>
+      <section id="view-network" class="view hidden"><div class="data-header"><div class="eyebrow">04 / TRAFFIC</div><h1>Network connections<span class="title-period">.</span></h1><p>Every active path between here and out there.</p></div><div class="section-heading"><h3>Active sockets</h3><span class="section-caption">LOCAL / REMOTE / STATUS</span><span class="search-label">SEARCHING / TRAFFIC</span></div><div class="table-wrap"><table id="table-network"><thead><tr><th>Process</th><th>Local address</th><th>Remote address</th><th>Status</th></tr></thead><tbody></tbody></table></div></section>
+      <section id="view-ports" class="view hidden"><div class="data-header"><div class="eyebrow">05 / EXPOSURE</div><h1>Listening ports<span class="title-period">.</span></h1><p>Services currently accepting connections.</p></div><div class="section-heading"><h3>Open listeners</h3><span class="section-caption">PROCESS / LOCAL ADDRESS</span><span class="search-label">SEARCHING / EXPOSURE</span></div><div class="table-wrap"><table id="table-ports"><thead><tr><th>Process</th><th>Local address</th></tr></thead><tbody></tbody></table></div></section>
+      <section id="view-storage" class="view hidden"><div class="data-header"><div class="eyebrow">06 / CAPACITY</div><h1>Storage volumes<span class="title-period">.</span></h1><p>Every volume, every byte in view.</p></div><div class="section-heading"><h3>Volume inventory</h3><span class="section-caption">CAPACITY AND UTILIZATION</span><span class="search-label">SEARCHING / STORAGE</span></div><div id="storage-drives" class="storage-drives"></div></section>
+    </main><footer class="app-footer"><span>© SENTINEL / ENDPOINT OBSERVATORY</span><span>PRIVATE BY DESIGN — NO CLOUD RELAY</span><span>v1.0.3</span></footer>
   </div>
   <script src="./renderer.js"></script>
 </body>
